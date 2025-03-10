@@ -145,7 +145,7 @@ private fun DessertClickerApp(
 @Composable
 private fun DessertClickerApp(
     uiState: DessertUiState,
-    onDessertClicked: () -> Unit,
+    onDessertClicked: (Int) -> Unit, // Pass dessert number
 ) {
     Scaffold(
         topBar = {
@@ -154,7 +154,7 @@ private fun DessertClickerApp(
                 onShareButtonClicked = {
                     shareSoldDessertsInformation(
                         intentContext = intentContext,
-                        dessertsSold = uiState.dessertsSold,
+                        dessertsSold = uiState.dessertsSold1 + uiState.dessertsSold2- 5,
                         revenue = uiState.revenue
                     )
                 }
@@ -163,13 +163,15 @@ private fun DessertClickerApp(
     ) { contentPadding ->
         DessertClickerScreen(
             revenue = uiState.revenue,
-            dessertsSold = uiState.dessertsSold,
-            dessertImageId = uiState.currentDessertImageId,
-            onDessertClicked = onDessertClicked,
+            dessertsSold = uiState.dessertsSold1 + uiState.dessertsSold2 -5,
+            dessertImageId1 = uiState.currentDessertImageId1,
+            dessertImageId2 = uiState.currentDessertImageId2,
+            onDessertClicked = onDessertClicked, // Pass down
             modifier = Modifier.padding(contentPadding)
         )
     }
 }
+
 
 @Composable
 private fun AppBar(
@@ -206,8 +208,9 @@ private fun AppBar(
 fun DessertClickerScreen(
     revenue: Int,
     dessertsSold: Int,
-    @DrawableRes dessertImageId: Int,
-    onDessertClicked: () -> Unit,
+    @DrawableRes dessertImageId1: Int,
+    @DrawableRes dessertImageId2: Int,
+    onDessertClicked: (Int) -> Unit, // Pass dessert number
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
@@ -217,19 +220,30 @@ fun DessertClickerScreen(
             contentScale = ContentScale.Crop
         )
         Column {
-            Box(
+            Row(
                 modifier = Modifier
+                    .padding(top = 250.dp)
                     .weight(1f)
                     .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Image(
-                    painter = painterResource(dessertImageId),
+                    painter = painterResource(dessertImageId1),
                     contentDescription = null,
                     modifier = Modifier
                         .width(150.dp)
                         .height(150.dp)
-                        .align(Alignment.Center)
-                        .clickable { onDessertClicked() },
+                        .clickable { onDessertClicked(1) }, // Handle click for dessert 1
+                    contentScale = ContentScale.Crop,
+                )
+
+                Image(
+                    painter = painterResource(dessertImageId2),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(150.dp)
+                        .clickable { onDessertClicked(2) }, // Handle click for dessert 2
                     contentScale = ContentScale.Crop,
                 )
             }
@@ -237,6 +251,7 @@ fun DessertClickerScreen(
         }
     }
 }
+
 
 @Composable
 private fun TransactionInfo(

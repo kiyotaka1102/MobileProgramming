@@ -13,18 +13,33 @@ class DessertViewModel : ViewModel() {
     private val _dessertUiState = MutableStateFlow(DessertUiState())
     val dessertUiState: StateFlow<DessertUiState> = _dessertUiState.asStateFlow()
 
-    fun onDessertClicked() {
-       _dessertUiState.update { cupcakeUiState ->
-           val dessertsSold = cupcakeUiState.dessertsSold + 1
-           val nextDessertIndex = determineDessertIndex(dessertsSold)
-           cupcakeUiState.copy(
-               currentDessertIndex = nextDessertIndex,
-               revenue = cupcakeUiState.revenue + cupcakeUiState.currentDessertPrice,
-               dessertsSold = dessertsSold,
-               currentDessertImageId = dessertList[nextDessertIndex].imageId,
-               currentDessertPrice = dessertList[nextDessertIndex].price
-           )
-       }
+    fun onDessertClicked(dessertNumber: Int) {
+        _dessertUiState.update { state ->
+            val newState = if (dessertNumber == 1) {
+                val dessertsSold1 = state.dessertsSold1 + 1
+                val nextDessertIndex1 = determineDessertIndex(dessertsSold1)
+
+                state.copy(
+                    revenue = state.revenue + state.currentDessertPrice1,
+                    dessertsSold1 = dessertsSold1, // Chỉ cập nhật dessertsSold1
+                    currentDessertIndex1 = nextDessertIndex1,
+                    currentDessertImageId1 = dessertList[nextDessertIndex1].imageId,
+                    currentDessertPrice1 = dessertList[nextDessertIndex1].price
+                )
+            } else {
+                val dessertsSold2 = state.dessertsSold2 + 1
+                val nextDessertIndex2 = determineDessertIndex(dessertsSold2)
+
+                state.copy(
+                    revenue = state.revenue + state.currentDessertPrice2,
+                    dessertsSold2 = dessertsSold2, // Chỉ cập nhật dessertsSold2
+                    currentDessertIndex2 = nextDessertIndex2,
+                    currentDessertImageId2 = dessertList[nextDessertIndex2].imageId,
+                    currentDessertPrice2 = dessertList[nextDessertIndex2].price
+                )
+            }
+            newState
+        }
     }
 
     private fun determineDessertIndex(dessertsSold: Int): Int {
