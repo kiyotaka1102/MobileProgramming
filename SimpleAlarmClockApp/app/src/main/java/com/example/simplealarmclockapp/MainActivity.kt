@@ -50,17 +50,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAlarm() {
-        val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
+        val intent = Intent().apply {
+            setClassName("com.example.myapplication", "com.example.myapplication.MainActivity")
             putExtra(AlarmClock.EXTRA_HOUR, selectedHour)
             putExtra(AlarmClock.EXTRA_MINUTES, selectedMinute)
-            putExtra(AlarmClock.EXTRA_MESSAGE, getString(R.string.alarm_message))
+            putExtra(AlarmClock.EXTRA_MESSAGE, "Wake up for class!")
         }
 
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
-            Toast.makeText(this, getString(R.string.alarm_set, selectedHour, selectedMinute), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, getString(R.string.no_alarm_app), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Second app not installed", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 }
