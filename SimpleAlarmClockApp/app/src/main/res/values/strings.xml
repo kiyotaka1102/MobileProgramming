@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Alarm Setter</string>
+    <string name="select_time">Select an alarm time</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="set_alarm">Set Alarm</string>
+    <string name="selected_time">Selected Time: %02d:%02d</string>
+    <string name="alarm_message">Wake up for class!</string>
+    <string name="alarm_set">Alarm set for %02d:%02d</string>
+    <string name="no_alarm_app">No alarm app available</string>
+</resources>
