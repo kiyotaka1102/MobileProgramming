@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>android/.github:renovate-config"
+  ],
+
+  "baseBranches": [
+    "starter_code",
+    "end_codelab_1",
+    "end_codelab_2",
+    "end_codelab_3"
+  ]
+
+}
