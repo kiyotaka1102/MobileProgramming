@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Sort button positioned in the top-right corner -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonSortTasks"
         android:layout_width="wrap_content"
@@ -17,7 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
-    <!-- RecyclerView fills most of the screen -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTasks"
         android:layout_width="0dp"
@@ -28,7 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Add Task button positioned in the bottom-right corner -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonAddTask"
         android:layout_width="wrap_content"
