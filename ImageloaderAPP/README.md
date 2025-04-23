@@ -10,57 +10,82 @@ A simple Android application that demonstrates loading images from the web using
 - Network connectivity monitoring
 - Runtime permission handling
 
-## Setup Requirements
+## Project Setup
 
-### Dependencies
+### Gradle Configuration
 
-Add these dependencies to your `build.gradle` file:
+The project uses Kotlin DSL for Gradle. The main `build.gradle.kts` configuration:
 
-```gradle
+```kotlin
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace = "com.example.imageloaderapp"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.imageloaderapp"
+        minSdk = 24
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.loader:loader:1.1.0'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
 ```
 
-### Permissions
+### Required Permissions
 
-Add the following permissions to your `AndroidManifest.xml`:
+The app requires the following permissions in `AndroidManifest.xml`:
 
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-```
-
-### Service Declaration
-
-Declare the foreground service in your `AndroidManifest.xml`:
-
-```xml
-<application>
-    <!-- Other application components -->
-    
-    <service
-        android:name=".ImageLoaderService"
-        android:enabled="true"
-        android:exported="false"
-        android:foregroundServiceType="dataSync" />
-</application>
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 ```
 
 ## Running the App
 
 1. Clone the repository or download the source code
 2. Open the project in Android Studio
-3. Build and run the app on an emulator or physical device
-4. Enter a valid image URL (default is provided)
-5. Press the "Load" button to fetch and display the image
+3. Ensure you have SDK 35 installed (or modify the compileSdk in build.gradle.kts)
+4. Build and run the app on an emulator or physical device with API level 24 or higher
+5. Enter a valid image URL (default is provided - https://picsum.photos/800/600)
+6. Press the "Load" button to fetch and display the image
 
 ## Component Implementation Details
 
@@ -121,9 +146,19 @@ The app follows a simple architecture:
 ## Troubleshooting
 
 - If images fail to load, check your internet connection
-- On Android 13+, ensure notification permissions are granted
+- On Android 13+ (API 33+), ensure notification permissions are granted
 - For devices with battery optimization, you may need to exempt the app
 - Check the status text view for detailed error messages
+
+## Layout Requirements
+
+Create a layout file `activity_main.xml` with the following components:
+- EditText with id `url_edit_text` for entering image URLs
+- Button with id `load_button` for triggering image loading
+- ImageView with id `image_view` for displaying the loaded image
+- TextView with id `status_text_view` for showing loading status and errors
+
+Don't forget to create a drawable resource `ic_notification` for the service notification icon.
 
 ## License
 
